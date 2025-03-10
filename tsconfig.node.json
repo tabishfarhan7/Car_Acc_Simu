@@ -1,0 +1,114 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["vite.config.ts"]
+}
+// 1. Count All Fridays Between Two Dates
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+
+class CountFridays {
+    public static int countFridays(LocalDate start, LocalDate end) {
+        int count = 0;
+        while (!start.isAfter(end)) {
+            if (start.getDayOfWeek() == DayOfWeek.FRIDAY) count++;
+            start = start.plusDays(1);
+        }
+        return count;
+    }
+}
+
+// 2. Find Next Leap Year After a Given Date
+class NextLeapYear {
+    public static int nextLeapYear(LocalDate date) {
+        int year = date.getYear() + 1;
+        while (!Year.isLeap(year)) {
+            year++;
+        }
+        return year;
+    }
+}
+
+// 3. Birthday Countdown
+class BirthdayCountdown {
+    public static void showBirthdayDetails(LocalDate birthDate) {
+        LocalDate now = LocalDate.now();
+        LocalDate nextBirthday = birthDate.withYear(now.getYear());
+        if (nextBirthday.isBefore(now) || nextBirthday.isEqual(now)) {
+            nextBirthday = nextBirthday.plusYears(1);
+        }
+        Period age = Period.between(birthDate, now);
+        long daysLeft = ChronoUnit.DAYS.between(now, nextBirthday);
+        System.out.println("Age: " + age.getYears());
+        System.out.println("Days until next birthday: " + daysLeft);
+        System.out.println("Birthday falls on: " + nextBirthday.getDayOfWeek());
+    }
+}
+
+// 4. Time Difference Between Two Zones
+class TimeZoneDifference {
+    public static void showDifference() {
+        ZonedDateTime india = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
+        ZonedDateTime ny = india.withZoneSameInstant(ZoneId.of("America/New_York"));
+        Duration diff = Duration.between(ny.toLocalTime(), india.toLocalTime());
+        System.out.println("Time difference: " + Math.abs(diff.toHours()) + " hours and " + Math.abs(diff.toMinutesPart()) + " minutes");
+    }
+}
+
+// 5. Custom Calendar Builder
+class MonthCalendar {
+    public static void printCalendar(int year, int month) {
+        YearMonth ym = YearMonth.of(year, month);
+        LocalDate date = ym.atDay(1);
+        while (date.getMonthValue() == month) {
+            System.out.println(date + " - " + date.getDayOfWeek());
+            date = date.plusDays(1);
+        }
+    }
+}
+
+// 6. Date Range Validator
+class DateRangeValidator {
+    public static boolean validate(LocalDate start, LocalDate end) {
+        long days = ChronoUnit.DAYS.between(start, end);
+        return days >= 15 && start.getDayOfWeek() == DayOfWeek.MONDAY && end.getDayOfWeek() == DayOfWeek.FRIDAY;
+    }
+}
+
+// 7. Check If Date is Weekend
+class WeekendChecker {
+    public static String checkWeekend(String input) {
+        LocalDate date = LocalDate.parse(input);
+        DayOfWeek day = date.getDayOfWeek();
+        return (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) ? "Weekend" : "Weekday";
+    }
+}
+
+// 8. Format Date-Time in Multiple Locales
+import java.util.Locale;
+
+class MultiLocaleFormatter {
+    public static void formatInLocales(LocalDateTime dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL);
+        System.out.println("US: " + dateTime.format(formatter.withLocale(Locale.US)));
+        System.out.println("France: " + dateTime.format(formatter.withLocale(Locale.FRANCE)));
+        System.out.println("Japan: " + dateTime.format(formatter.withLocale(Locale.JAPAN)));
+    }
+}
